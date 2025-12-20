@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CoworkingSpaceManager.API.Models
 {
-    public class CoworkingContext : IdentityDbContext<IdentityUser>
+    public class CoworkingContext : IdentityDbContext<ApplicationUser>
     {
         public CoworkingContext(DbContextOptions<CoworkingContext> options) : base(options)
         {
