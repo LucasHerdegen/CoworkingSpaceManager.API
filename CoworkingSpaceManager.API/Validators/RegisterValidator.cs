@@ -1,0 +1,19 @@
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+using System.Threading.Tasks;
+using CoworkingSpaceManager.API.DTOs;
+using FluentValidation;
+
+namespace CoworkingSpaceManager.API.Validators
+{
+    public class RegisterValidator : AbstractValidator<RegisterDto>
+    {
+        public RegisterValidator()
+        {
+            RuleFor(x => x.Email).EmailAddress().WithMessage("Incorrect Email format");
+            RuleFor(x => x.Password).MinimumLength(4).WithMessage("The password must be at least 4 characters longs");
+        }
+    }
+}

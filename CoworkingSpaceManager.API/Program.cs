@@ -1,8 +1,12 @@
 var builder = WebApplication.CreateBuilder(args);
 
+/* service area */
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddControllers();
+
+/* middleware area */
 
 var app = builder.Build();
 
