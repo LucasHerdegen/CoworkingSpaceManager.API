@@ -14,7 +14,7 @@ namespace CoworkingSpaceManager.API.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         public string? UserId { get; set; }
-        public IdentityUser? User { get; set; }
+        public ApplicationUser? User { get; set; }
         public int SpaceId { get; set; }
         public Space? Space { get; set; }
         public DateTime ReservationDate { get; set; }
