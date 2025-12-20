@@ -24,6 +24,7 @@ namespace CoworkingSpaceManager.API.Services
                 FirstName = dto.FirstName,
                 LastName = dto.LastName,
                 Email = dto.Email,
+                UserName = dto.Email
             };
 
             return await _userManager.CreateAsync(newUser, dto.Password!);
