@@ -1,5 +1,9 @@
 using System.Text;
+using CoworkingSpaceManager.API.DTOs;
 using CoworkingSpaceManager.API.Models;
+using CoworkingSpaceManager.API.Services;
+using CoworkingSpaceManager.API.Validators;
+using FluentValidation;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -16,13 +20,13 @@ builder.Services.AddDbContext<CoworkingContext>(options =>
 });
 
 // Identity & JWT
-
 builder.Services.AddIdentityCore<ApplicationUser>()
     .AddEntityFrameworkStores<CoworkingContext>()
+    .AddSignInManager()
     .AddDefaultTokenProviders();
 
-builder.Services.AddScoped<UserManager<ApplicationUser>>();
-builder.Services.AddScoped<SignInManager<ApplicationUser>>();
+// builder.Services.AddScoped<UserManager<ApplicationUser>>();
+// builder.Services.AddScoped<SignInManager<ApplicationUser>>();
 
 builder.Services.AddAuthentication(options =>
 {
@@ -42,8 +46,13 @@ builder.Services.AddAuthentication(options =>
     };
 });
 
-// 
+// validators
+builder.Services.AddScoped<IValidator<RegisterDto>, RegisterValidator>();
 
+// services
+builder.Services.AddScoped<IUserService, UserService>();
+
+// 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddControllers();
