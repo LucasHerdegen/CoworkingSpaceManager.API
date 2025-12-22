@@ -36,7 +36,12 @@ namespace CoworkingSpaceManager.API.Services
         {
             var newUser = _mapper.Map<ApplicationUser>(dto);
 
-            return await _userManager.CreateAsync(newUser, dto.Password!);
+            var result = await _userManager.CreateAsync(newUser, dto.Password!);
+
+            if (result.Succeeded)
+                await _userManager.AddToRoleAsync(newUser, "User");
+
+            return result;
         }
 
         public async Task<TokenDto?> Login(LoginDto dto)

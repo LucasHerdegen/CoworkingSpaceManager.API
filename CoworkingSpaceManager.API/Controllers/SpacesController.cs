@@ -49,6 +49,7 @@ namespace CoworkingSpaceManager.API.Controllers
             return Ok(space);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> CreateSpace(SpacePostDto dto)
         {
@@ -62,6 +63,7 @@ namespace CoworkingSpaceManager.API.Controllers
             return CreatedAtAction(nameof(GetSpaceById), new { id = space.Id}, space);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateSpace(int id, SpacePutDto dto)
         {
@@ -81,13 +83,14 @@ namespace CoworkingSpaceManager.API.Controllers
             return Ok(space);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpDelete]
         public async Task<IActionResult> DeleteSpace(int id)
         {
             if (id <= 0)
                 return BadRequest("The id have to be greater than 0");
 
-            var space = _spaceService.DeleteSpace(id);
+            var space = await _spaceService.DeleteSpace(id);
 
             if (space == null)
                 return NotFound();

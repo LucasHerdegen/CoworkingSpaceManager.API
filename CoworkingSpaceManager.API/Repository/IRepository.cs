@@ -15,7 +15,6 @@ namespace CoworkingSpaceManager.API.Repository
         void Delete(T delete);
         Task Save();
         Task<bool> IsReserved(T a, DateTime date);
-
-         Task<IEnumerable<T>> Get(string userId);
+        Task<IEnumerable<T>> Get(string userId);
     }
 }

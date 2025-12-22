@@ -34,7 +34,7 @@ namespace CoworkingSpaceManager.API.Controllers
            return Ok(bookings); 
         }
 
-        [HttpGet]
+        [HttpGet("{id}")]
         public async Task<IActionResult> GetBookingById(int id)
         {
             if (id <= 0)
