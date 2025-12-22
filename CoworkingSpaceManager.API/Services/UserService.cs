@@ -1,33 +1,85 @@
 using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Security.Claims;
+using System.Security.Cryptography;
+using System.Text;
 using System.Threading.Tasks;
+using AutoMapper;
 using CoworkingSpaceManager.API.DTOs;
 using CoworkingSpaceManager.API.Models;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.IdentityModel.Tokens;
 
 namespace CoworkingSpaceManager.API.Services
 {
     public class UserService : IUserService
     {
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly IMapper _mapper;
+        private readonly IConfiguration _configuration;
 
-        public UserService(UserManager<ApplicationUser> userManager)
+        public UserService(UserManager<ApplicationUser> userManager,
+            SignInManager<ApplicationUser> signInManager,
+            IMapper mapper,
+            IConfiguration configuration)
         {
             _userManager = userManager;
+            _signInManager = signInManager;
+            _mapper = mapper;
+            _configuration = configuration;
         }
 
         public async Task<IdentityResult> RegisterUser(RegisterDto dto)
         {
-            var newUser = new ApplicationUser
-            {
-                FirstName = dto.FirstName,
-                LastName = dto.LastName,
-                Email = dto.Email,
-                UserName = dto.Email
-            };
+            var newUser = _mapper.Map<ApplicationUser>(dto);
 
             return await _userManager.CreateAsync(newUser, dto.Password!);
         }
+
+        public async Task<TokenResult?> Login(LoginDto dto)
+        {
+            var user = await _userManager.FindByEmailAsync(dto.Email!);
+
+            if (user == null)
+                return null;
+
+            var result = await _signInManager.CheckPasswordSignInAsync(user, dto.Email!, false);
+
+            if (!result.Succeeded)
+                return null;
+
+            var authClaims = new List<Claim>
+            {
+                new Claim(ClaimTypes.Email, dto.Email!),
+                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+            };
+
+            var userRoles = await _userManager.GetRolesAsync(user);
+
+            foreach (var role in userRoles)
+                authClaims.Add(new Claim(ClaimTypes.Role, role));
+
+            var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["jwt:key"]!));
+
+            var token = new JwtSecurityToken(
+                expires: DateTime.Now.AddDays(1),
+                claims: authClaims,
+                signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256)
+            );
+
+            return new TokenResult
+            {
+                Token = token,
+                ValidTo = token.ValidTo
+            };
+        }
+    }
+    public class TokenResult
+    {
+        public required JwtSecurityToken Token { get; set; }
+        public required DateTime ValidTo { get; set; }
     }
 }

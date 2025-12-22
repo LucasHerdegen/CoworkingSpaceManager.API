@@ -1,5 +1,6 @@
 using System.Text;
 using CoworkingSpaceManager.API.DTOs;
+using CoworkingSpaceManager.API.Mappers;
 using CoworkingSpaceManager.API.Models;
 using CoworkingSpaceManager.API.Services;
 using CoworkingSpaceManager.API.Validators;
@@ -48,6 +49,10 @@ builder.Services.AddAuthentication(options =>
 
 // validators
 builder.Services.AddScoped<IValidator<RegisterDto>, RegisterValidator>();
+builder.Services.AddScoped<IValidator<LoginDto>, LoginValidator>();
+
+// mappers
+builder.Services.AddAutoMapper(typeof(MapperProfile));
 
 // services
 builder.Services.AddScoped<IUserService, UserService>();

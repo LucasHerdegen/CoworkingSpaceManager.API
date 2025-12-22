@@ -10,5 +10,6 @@ namespace CoworkingSpaceManager.API.Services
     public interface IUserService
     {
         Task<IdentityResult> RegisterUser(RegisterDto dto);
+        Task<TokenResult?> Login(LoginDto dto);
     }
 }

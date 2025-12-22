@@ -16,13 +16,17 @@ namespace CoworkingSpaceManager.API.Controllers
     [Route("api/[controller]")]
     public class AuthController : ControllerBase
     {
-        private readonly IValidator<RegisterDto> _registerValidator;
         private readonly IUserService _userService;
+        private readonly IValidator<RegisterDto> _registerValidator;
+        private readonly IValidator<LoginDto> _loginValidator;
 
-        public AuthController(IValidator<RegisterDto> registerValidator, IUserService userService)
+        public AuthController(IValidator<RegisterDto> registerValidator,
+            IUserService userService,
+            IValidator<LoginDto> loginValidator)
         {
             _registerValidator = registerValidator;
             _userService = userService;
+            _loginValidator = loginValidator;
         }
 
         [AllowAnonymous]
@@ -40,6 +44,23 @@ namespace CoworkingSpaceManager.API.Controllers
                 return BadRequest(result.Errors);
 
             return Ok("Successfully registered");
+        }
+
+        [AllowAnonymous]
+        [HttpPost("login")]
+        public async Task<IActionResult> Login(LoginDto dto)
+        {
+            var validation = _loginValidator.Validate(dto);
+
+            if (!validation.IsValid)
+                return BadRequest(validation.Errors);
+
+            var tokenResult = _userService.Login(dto);
+
+            if (tokenResult == null)
+                return Unauthorized("Something went wrong! Check the credentials");
+
+            return Ok(tokenResult);
         }
     }
 }
