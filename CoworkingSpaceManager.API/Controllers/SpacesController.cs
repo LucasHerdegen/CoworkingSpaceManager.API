@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using CoworkingSpaceManager.API.DTOs;
 using CoworkingSpaceManager.API.Services;
+using FluentValidation;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -15,9 +16,12 @@ namespace CoworkingSpaceManager.API.Controllers
     public class SpacesController : ControllerBase
     {
         private readonly ISpaceService _spaceService;
-        public SpacesController(ISpaceService spaceService)
+        private readonly IValidator<SpacePostDto> _spacePostValidator;
+        public SpacesController(ISpaceService spaceService,
+            IValidator<SpacePostDto> spacePostValidator)
         {
             _spaceService = spaceService;
+            _spacePostValidator = spacePostValidator;
         }
 
         [HttpGet]
@@ -34,12 +38,25 @@ namespace CoworkingSpaceManager.API.Controllers
             if (id <= 0)
                 return BadRequest("The id have to be greater than 0");
 
-            var space = _spaceService.GetSpaceById(id);
+            var space = await _spaceService.GetSpaceById(id);
 
             if (space == null)
                 return NotFound();
 
             return Ok(space);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateSpace(SpacePostDto dto)
+        {
+            var validation = _spacePostValidator.Validate(dto);
+
+            if (!validation.IsValid)
+                return BadRequest(validation.Errors);
+
+            var space = await _spaceService.CreateSpace(dto);
+
+            return CreatedAtAction(nameof(GetSpaceById), new { id = space.Id}, space);
         }
     }
 }

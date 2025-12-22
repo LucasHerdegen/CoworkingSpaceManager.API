@@ -40,12 +40,16 @@ namespace CoworkingSpaceManager.API.Services
             return spaceDto;
         }
 
-        public async Task CreateSpace(SpacePostDto dto)
+        public async Task<SpaceDto> CreateSpace(SpacePostDto dto)
         {
             var space = _mapper.Map<Space>(dto);
 
             await _spaceRepository.Create(space);
             await _spaceRepository.Save();
+
+            var spaceDto = _mapper.Map<SpaceDto>(space);
+
+            return spaceDto;
         }
     }
 }

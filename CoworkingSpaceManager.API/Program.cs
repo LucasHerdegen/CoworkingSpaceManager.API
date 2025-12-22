@@ -50,6 +50,7 @@ builder.Services.AddAuthentication(options =>
 // validators
 builder.Services.AddScoped<IValidator<RegisterDto>, RegisterValidator>();
 builder.Services.AddScoped<IValidator<LoginDto>, LoginValidator>();
+builder.Services.AddScoped<IValidator<SpacePostDto>, SpacePostValidator>();
 
 // mappers
 builder.Services.AddAutoMapper(typeof(MapperProfile));

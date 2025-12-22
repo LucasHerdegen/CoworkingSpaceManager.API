@@ -55,7 +55,7 @@ namespace CoworkingSpaceManager.API.Controllers
             if (!validation.IsValid)
                 return BadRequest(validation.Errors);
 
-            var tokenResult = _userService.Login(dto);
+            var tokenResult = await _userService.Login(dto);
 
             if (tokenResult == null)
                 return Unauthorized("Something went wrong! Check the credentials");
