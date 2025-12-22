@@ -1,0 +1,14 @@
+using System;
+using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
+using System.Threading.Tasks;
+
+namespace CoworkingSpaceManager.API.DTOs
+{
+    public class TokenDto
+    {
+        public required JwtSecurityToken Token { get; set; }
+        public required DateTime ValidTo { get; set; }
+    }
+}

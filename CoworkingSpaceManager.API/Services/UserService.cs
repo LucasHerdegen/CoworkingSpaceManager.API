@@ -39,7 +39,7 @@ namespace CoworkingSpaceManager.API.Services
             return await _userManager.CreateAsync(newUser, dto.Password!);
         }
 
-        public async Task<TokenResult?> Login(LoginDto dto)
+        public async Task<TokenDto?> Login(LoginDto dto)
         {
             var user = await _userManager.FindByEmailAsync(dto.Email!);
 
@@ -65,21 +65,16 @@ namespace CoworkingSpaceManager.API.Services
             var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["jwt:key"]!));
 
             var token = new JwtSecurityToken(
-                expires: DateTime.Now.AddDays(1),
+                expires: DateTime.UtcNow.AddDays(1),
                 claims: authClaims,
                 signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256)
             );
 
-            return new TokenResult
+            return new TokenDto
             {
                 Token = token,
                 ValidTo = token.ValidTo
             };
         }
-    }
-    public class TokenResult
-    {
-        public required JwtSecurityToken Token { get; set; }
-        public required DateTime ValidTo { get; set; }
     }
 }
