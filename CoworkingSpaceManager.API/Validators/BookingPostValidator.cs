@@ -12,7 +12,9 @@ namespace CoworkingSpaceManager.API.Validators
         public BookingPostValidator()
         {
             RuleFor(x => x.SpaceId).GreaterThan(0).WithMessage("The id have to be greater than 0");
-            RuleFor(x => x.ReservationDate).NotEmpty().WithMessage("The reservation date field is required");
+            RuleFor(x => x.ReservationDate)
+                .NotEmpty()
+                .GreaterThanOrEqualTo(DateTime.Today).WithMessage("No puedes reservar en el pasado.");
         }
     }
 }

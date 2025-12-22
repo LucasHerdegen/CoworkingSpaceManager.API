@@ -19,6 +19,9 @@ namespace CoworkingSpaceManager.API.Repository
         public async Task<IEnumerable<Booking>> Get() =>
             await _context.Bookings.ToListAsync();
 
+        public async Task<IEnumerable<Booking>> Get(string userId) =>
+            await _context.Bookings.Where(x => x.UserId == userId).ToListAsync();
+
         public async Task<Booking?> GetById(int id) =>
             await _context.Bookings.FirstOrDefaultAsync(x => x.Id == id);
 

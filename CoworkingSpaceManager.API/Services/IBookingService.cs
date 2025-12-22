@@ -9,7 +9,9 @@ namespace CoworkingSpaceManager.API.Services
     public interface IBookingService
     {
         Task<IEnumerable<BookingDto>> GetBookings();
+        Task<IEnumerable<BookingDto>> GetBookings(string userId);
         Task<BookingDto?> GetBookingById(int id);
-       Task<BookingDto?> CreateBooking(BookingPostDto dto, string userId);
+        Task<BookingDto?> CreateBooking(BookingPostDto dto, string userId);
+        Task<BookingDto?> DeleteBooking(int id, string userId);
     }
 }

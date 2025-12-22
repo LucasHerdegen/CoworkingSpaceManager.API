@@ -33,6 +33,15 @@ namespace CoworkingSpaceManager.API.Services
             return bookingDtos;
         }
 
+        public async Task<IEnumerable<BookingDto>> GetBookings(string userId)
+        {
+            var bookings = await _bookingRepository.Get(userId);
+
+            var bookingDtos = _mapper.Map<IEnumerable<BookingDto>>(bookings);
+
+            return bookingDtos;
+        }
+
         public async Task<BookingDto?> GetBookingById(int id)
         {
             var booking = await _bookingRepository.GetById(id);
@@ -68,6 +77,21 @@ namespace CoworkingSpaceManager.API.Services
             await _bookingRepository.Save();
 
             var bookingDto = _mapper.Map<BookingDto>(newBooking);
+
+            return bookingDto;
+        }
+        
+        public async Task<BookingDto?> DeleteBooking(int id, string userId)
+        {
+            var booking = await _bookingRepository.GetById(id);
+
+            if (booking == null || booking.UserId != userId)
+                return null;
+
+            var bookingDto = _mapper.Map<BookingDto>(booking);
+
+            _bookingRepository.Delete(booking);
+            await _bookingRepository.Save();
 
             return bookingDto;
         }

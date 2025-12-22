@@ -68,5 +68,37 @@ namespace CoworkingSpaceManager.API.Controllers
 
             return CreatedAtAction(nameof(GetBookingById), new { id = booking.Id}, booking);
         }
+
+        [HttpGet("my-bookings")]
+        public async Task<IActionResult> GetMyBookings()
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            if (string.IsNullOrEmpty(userId))
+                return Unauthorized("The user could not be identified from the token");
+
+            var bookings = await _bookingService.GetBookings(userId);
+
+            return Ok(bookings);
+        }
+
+        [HttpDelete("{bookingId}")]
+        public async Task<IActionResult> DeleteBooking(int bookingId)
+        {
+            if (bookingId <= 0)
+                return BadRequest("The bookingId have to be greater than 0");
+
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            if (string.IsNullOrEmpty(userId))
+                return Unauthorized("The user could not be identified from the token");
+
+            var booking = await _bookingService.DeleteBooking(bookingId, userId);
+
+            if (booking == null)
+                return Forbid();
+
+            return Ok(booking);
+        }
     }
 }

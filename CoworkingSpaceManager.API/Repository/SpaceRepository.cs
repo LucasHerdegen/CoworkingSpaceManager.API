@@ -36,5 +36,10 @@ namespace CoworkingSpaceManager.API.Repository
 
         public async Task<bool> IsReserved(Space space, DateTime date) =>
             await _context.Bookings.AnyAsync(x => x.SpaceId == space.Id && x.ReservationDate.Date == date.Date);
+
+        public Task<IEnumerable<Space>> Get(string userId)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
