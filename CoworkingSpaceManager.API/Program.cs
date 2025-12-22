@@ -66,8 +66,8 @@ builder.Services.AddScoped<ISpaceService, SpaceService>();
 builder.Services.AddScoped<IBookingService, BookingService>();
 
 // Repositorios
-builder.Services.AddScoped<IRepository<Space>, SpaceRepository>();
-builder.Services.AddScoped<IRepository<Booking>, BookingRepository>();
+builder.Services.AddScoped<ISpaceRepository, SpaceRepository>();
+builder.Services.AddScoped<IBookingRepository, BookingRepository>();
 
 // 
 builder.Services.AddEndpointsApiExplorer();

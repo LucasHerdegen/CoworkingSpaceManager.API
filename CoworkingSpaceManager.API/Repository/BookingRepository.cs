@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CoworkingSpaceManager.API.Repository
 {
-    public class BookingRepository : IRepository<Booking>
+    public class BookingRepository : IBookingRepository
     {
         private readonly CoworkingContext _context;
 
@@ -36,10 +36,5 @@ namespace CoworkingSpaceManager.API.Repository
 
         public async Task Save() =>
             await _context.SaveChangesAsync();
-
-        public Task<bool> IsReserved(Booking booking, DateTime date)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

@@ -12,12 +12,12 @@ namespace CoworkingSpaceManager.API.Services
     public class BookingService : IBookingService
     {
         private readonly IMapper _mapper;
-        private readonly IRepository<Booking> _bookingRepository;
-        private readonly IRepository<Space> _spaceRepository;
+        private readonly IBookingRepository _bookingRepository;
+        private readonly ISpaceRepository _spaceRepository;
 
         public BookingService(IMapper mapper,
-            IRepository<Booking> bookingRepository,
-            IRepository<Space> spaceRepository)
+            IBookingRepository bookingRepository,
+            ISpaceRepository spaceRepository)
         {
             _mapper = mapper;
             _bookingRepository = bookingRepository;

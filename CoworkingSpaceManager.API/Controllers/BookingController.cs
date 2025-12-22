@@ -26,6 +26,7 @@ namespace CoworkingSpaceManager.API.Controllers
             _bookingPostValidator = bookingPostValidator;
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public async Task<IActionResult> GetBookings()
         {

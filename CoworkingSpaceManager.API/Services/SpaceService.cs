@@ -11,10 +11,10 @@ namespace CoworkingSpaceManager.API.Services
 {
     public class SpaceService : ISpaceService
     {
-        private readonly IRepository<Space> _spaceRepository;
+        private readonly ISpaceRepository _spaceRepository;
         private readonly IMapper _mapper;
 
-        public SpaceService(IRepository<Space> spaceRepository, IMapper mapper)
+        public SpaceService(ISpaceRepository spaceRepository, IMapper mapper)
         {
             _spaceRepository = spaceRepository;
             _mapper = mapper;
