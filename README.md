@@ -94,7 +94,7 @@ erDiagram
     ASPNETUSERS ||--o{ BOOKING : "realiza"
     SPACE ||--o{ BOOKING : "tiene"
     
-    ASPNETUSERS {
+    USER {
         string Id PK
         string Email
         string FirstName
