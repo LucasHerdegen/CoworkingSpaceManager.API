@@ -80,5 +80,19 @@ namespace CoworkingSpaceManager.API.Controllers
 
             return Ok(space);
         }
+
+        [HttpDelete]
+        public async Task<IActionResult> DeleteSpace(int id)
+        {
+            if (id <= 0)
+                return BadRequest("The id have to be greater than 0");
+
+            var space = _spaceService.DeleteSpace(id);
+
+            if (space == null)
+                return NotFound();
+
+            return Ok(space);
+        }
     }
 }

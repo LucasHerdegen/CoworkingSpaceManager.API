@@ -17,6 +17,7 @@ namespace CoworkingSpaceManager.API.Mappers
 
             CreateMap<Space, SpaceDto>();
             CreateMap<SpacePostDto, Space>();
+            CreateMap<SpacePutDto, Space>();
         }
     }
 }
