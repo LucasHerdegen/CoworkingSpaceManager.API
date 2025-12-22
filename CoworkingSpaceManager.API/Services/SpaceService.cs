@@ -51,5 +51,22 @@ namespace CoworkingSpaceManager.API.Services
 
             return spaceDto;
         }
+
+        public async Task<SpaceDto?> UpdateSpace(int id, SpacePutDto dto)
+        {
+            var space = await _spaceRepository.GetById(id);
+
+            if (space == null)
+                return null;
+
+            _mapper.Map(dto, space);
+
+            _spaceRepository.Update(space);
+            await _spaceRepository.Save();
+
+            var spaceDto = _mapper.Map<SpaceDto>(space);
+
+            return spaceDto;
+        }
     }
 }

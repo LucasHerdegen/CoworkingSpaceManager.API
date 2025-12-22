@@ -11,5 +11,6 @@ namespace CoworkingSpaceManager.API.Services
         Task<IEnumerable<SpaceDto>> GetSpaces();
         Task<SpaceDto?> GetSpaceById(int id);
         Task<SpaceDto> CreateSpace(SpacePostDto dto);
+        Task<SpaceDto?> UpdateSpace(int id, SpacePutDto dto);
     }
 }

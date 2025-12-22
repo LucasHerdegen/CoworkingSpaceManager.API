@@ -17,11 +17,14 @@ namespace CoworkingSpaceManager.API.Controllers
     {
         private readonly ISpaceService _spaceService;
         private readonly IValidator<SpacePostDto> _spacePostValidator;
+        private readonly IValidator<SpacePutDto> _spacePutValidator;
         public SpacesController(ISpaceService spaceService,
-            IValidator<SpacePostDto> spacePostValidator)
+            IValidator<SpacePostDto> spacePostValidator,
+            IValidator<SpacePutDto> spacePutValidator)
         {
             _spaceService = spaceService;
             _spacePostValidator = spacePostValidator;
+            _spacePutValidator = spacePutValidator;
         }
 
         [HttpGet]
@@ -57,6 +60,25 @@ namespace CoworkingSpaceManager.API.Controllers
             var space = await _spaceService.CreateSpace(dto);
 
             return CreatedAtAction(nameof(GetSpaceById), new { id = space.Id}, space);
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateSpace(int id, SpacePutDto dto)
+        {
+            if (id <= 0)
+                return BadRequest("The id have to be greater than 0");
+
+            var validation = _spacePutValidator.Validate(dto);
+
+            if (!validation.IsValid)
+                return BadRequest(validation.Errors);
+
+            var space = await _spaceService.UpdateSpace(id, dto);
+
+            if (space == null)
+                return NotFound();
+
+            return Ok(space);
         }
     }
 }
