@@ -70,9 +70,11 @@ namespace CoworkingSpaceManager.API.Services
                 signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256)
             );
 
+            var tokenString = new JwtSecurityTokenHandler().WriteToken(token).ToString();
+
             return new TokenDto
             {
-                Token = token,
+                Token = tokenString,
                 ValidTo = token.ValidTo
             };
         }

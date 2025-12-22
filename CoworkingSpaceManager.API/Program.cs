@@ -2,6 +2,7 @@ using System.Text;
 using CoworkingSpaceManager.API.DTOs;
 using CoworkingSpaceManager.API.Mappers;
 using CoworkingSpaceManager.API.Models;
+using CoworkingSpaceManager.API.Repository;
 using CoworkingSpaceManager.API.Services;
 using CoworkingSpaceManager.API.Validators;
 using FluentValidation;
@@ -58,6 +59,10 @@ builder.Services.AddAutoMapper(typeof(MapperProfile));
 
 // services
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<ISpaceService, SpaceService>();
+
+// Repositorios
+builder.Services.AddScoped<IRepository<Space>, SpaceRepository>();
 
 // 
 builder.Services.AddEndpointsApiExplorer();

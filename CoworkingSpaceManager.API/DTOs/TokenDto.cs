@@ -8,7 +8,7 @@ namespace CoworkingSpaceManager.API.DTOs
 {
     public class TokenDto
     {
-        public required JwtSecurityToken Token { get; set; }
+        public required string Token { get; set; }
         public required DateTime ValidTo { get; set; }
     }
 }
