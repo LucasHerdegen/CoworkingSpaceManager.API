@@ -22,6 +22,7 @@ builder.Services.AddDbContext<CoworkingContext>(options =>
 
 // Identity & JWT
 builder.Services.AddIdentityCore<ApplicationUser>()
+    .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<CoworkingContext>()
     .AddSignInManager()
     .AddDefaultTokenProviders();

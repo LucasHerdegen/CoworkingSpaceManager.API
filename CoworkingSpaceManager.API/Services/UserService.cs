@@ -46,7 +46,7 @@ namespace CoworkingSpaceManager.API.Services
             if (user == null)
                 return null;
 
-            var result = await _signInManager.CheckPasswordSignInAsync(user, dto.Email!, false);
+            var result = await _signInManager.CheckPasswordSignInAsync(user, dto.Password!, false);
 
             if (!result.Succeeded)
                 return null;
