@@ -33,5 +33,10 @@ namespace CoworkingSpaceManager.API.Repository
 
         public async Task Save() =>
             await _context.SaveChangesAsync();
+
+        public Task<bool> IsReserved(Booking booking, DateTime date)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -10,5 +10,6 @@ namespace CoworkingSpaceManager.API.Services
     {
         Task<IEnumerable<BookingDto>> GetBookings();
         Task<BookingDto?> GetBookingById(int id);
+       Task<BookingDto?> CreateBooking(BookingPostDto dto, string userId);
     }
 }

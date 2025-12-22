@@ -7,6 +7,7 @@ namespace CoworkingSpaceManager.API.DTOs
 {
     public class BookingPostDto
     {
-        
+        public int SpaceId { get; set; }
+        public DateTime ReservationDate { get; set; }
     }
 }

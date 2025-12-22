@@ -54,6 +54,7 @@ builder.Services.AddScoped<IValidator<RegisterDto>, RegisterValidator>();
 builder.Services.AddScoped<IValidator<LoginDto>, LoginValidator>();
 builder.Services.AddScoped<IValidator<SpacePostDto>, SpacePostValidator>();
 builder.Services.AddScoped<IValidator<SpacePutDto>, SpacePutValidator>();
+builder.Services.AddScoped<IValidator<BookingPostDto>, BookingPostValidator>();
 
 // mappers
 builder.Services.AddAutoMapper(typeof(MapperProfile));

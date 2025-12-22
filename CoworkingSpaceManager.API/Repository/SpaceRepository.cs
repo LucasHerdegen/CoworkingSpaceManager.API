@@ -33,5 +33,8 @@ namespace CoworkingSpaceManager.API.Repository
 
         public async Task Save() =>
             await _context.SaveChangesAsync();
+
+        public async Task<bool> IsReserved(Space space, DateTime date) =>
+            await _context.Bookings.AnyAsync(x => x.SpaceId == space.Id && x.ReservationDate.Date == date.Date);
     }
 }
