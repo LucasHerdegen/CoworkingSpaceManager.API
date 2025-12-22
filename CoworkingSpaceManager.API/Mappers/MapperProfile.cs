@@ -14,6 +14,9 @@ namespace CoworkingSpaceManager.API.Mappers
         {
             CreateMap<RegisterDto, ApplicationUser>()
                 .ForMember(user => user.UserName, config => config.MapFrom(dto => dto.Email));
+
+            CreateMap<Space, SpaceDto>();
+            CreateMap<SpacePostDto, Space>();
         }
     }
 }
