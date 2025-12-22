@@ -61,9 +61,11 @@ builder.Services.AddAutoMapper(typeof(MapperProfile));
 // services
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<ISpaceService, SpaceService>();
+builder.Services.AddScoped<IBookingService, BookingService>();
 
 // Repositorios
 builder.Services.AddScoped<IRepository<Space>, SpaceRepository>();
+builder.Services.AddScoped<IRepository<Booking>, BookingRepository>();
 
 // 
 builder.Services.AddEndpointsApiExplorer();
