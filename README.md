@@ -91,7 +91,7 @@ El sistema está construido sobre una arquitectura de **N-Capas** para asegurar 
 
 ```mermaid
 erDiagram
-    ASPNETUSERS ||--o{ BOOKING : "realiza"
+    USER ||--o{ BOOKING : "realiza"
     SPACE ||--o{ BOOKING : "tiene"
     
     USER {
