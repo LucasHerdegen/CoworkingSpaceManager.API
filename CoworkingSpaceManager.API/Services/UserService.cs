@@ -59,7 +59,8 @@ namespace CoworkingSpaceManager.API.Services
             var authClaims = new List<Claim>
             {
                 new Claim(ClaimTypes.Email, dto.Email!),
-                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                new Claim(ClaimTypes.NameIdentifier, user.Id)
             };
 
             var userRoles = await _userManager.GetRolesAsync(user);
