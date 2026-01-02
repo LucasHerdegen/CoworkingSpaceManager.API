@@ -54,7 +54,7 @@ El sistema está construido sobre una arquitectura de **N-Capas** para asegurar 
 ### Pasos
 1.  **Clonar el repositorio:**
     ```bash
-    git clone [https://github.com/tu-usuario/CoworkingSpaceManager.API.git](https://github.com/tu-usuario/CoworkingSpaceManager.API.git)
+    git clone https://github.com/LucasHerdegen/CoworkingSpaceManager.API.git
     cd CoworkingSpaceManager.API
     ```
 
