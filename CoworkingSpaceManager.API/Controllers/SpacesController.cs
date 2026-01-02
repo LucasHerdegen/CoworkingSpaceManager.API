@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using CoworkingSpaceManager.API.DTOs;
+using CoworkingSpaceManager.API.Pagination;
 using CoworkingSpaceManager.API.Services;
 using FluentValidation;
 using Microsoft.AspNetCore.Authorization;
@@ -28,9 +29,9 @@ namespace CoworkingSpaceManager.API.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetSpaces()
+        public async Task<IActionResult> GetSpaces([FromQuery] PaginationParams paginationParams)
         {
-            var spaces = await _spaceService.GetSpaces();
+            var spaces = await _spaceService.GetSpaces(paginationParams);
 
             return Ok(spaces);            
         }

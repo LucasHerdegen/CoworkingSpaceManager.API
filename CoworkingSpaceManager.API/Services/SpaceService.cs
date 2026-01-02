@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using CoworkingSpaceManager.API.DTOs;
 using CoworkingSpaceManager.API.Models;
+using CoworkingSpaceManager.API.Pagination;
 using CoworkingSpaceManager.API.Repository;
 
 namespace CoworkingSpaceManager.API.Services
@@ -19,13 +20,18 @@ namespace CoworkingSpaceManager.API.Services
             _spaceRepository = spaceRepository;
             _mapper = mapper;
         }
-        public async Task<IEnumerable<SpaceDto>> GetSpaces()
+        public async Task<PagedList<SpaceDto>> GetSpaces(PaginationParams paginationParams)
         {
-            var spaces = await _spaceRepository.Get();
+            var spaces = await _spaceRepository.GetPaged(paginationParams);
 
-            var spacesDtos = _mapper.Map<IEnumerable<SpaceDto>>(spaces);
+            var spacesDtos = _mapper.Map<IEnumerable<SpaceDto>>(spaces.Items);
 
-            return spacesDtos;
+            return new PagedList<SpaceDto>(
+                spacesDtos,
+                spaces.TotalCount,
+                spaces.CurrentPage,
+                spaces.PageSize
+            );
         }
 
         public async Task<SpaceDto?> GetSpaceById(int id)

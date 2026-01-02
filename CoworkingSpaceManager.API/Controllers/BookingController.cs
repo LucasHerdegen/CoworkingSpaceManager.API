@@ -4,6 +4,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using CoworkingSpaceManager.API.DTOs;
+using CoworkingSpaceManager.API.Pagination;
 using CoworkingSpaceManager.API.Services;
 using FluentValidation;
 using Microsoft.AspNetCore.Authorization;
@@ -28,9 +29,9 @@ namespace CoworkingSpaceManager.API.Controllers
 
         [Authorize(Roles = "Admin")]
         [HttpGet]
-        public async Task<IActionResult> GetBookings()
+        public async Task<IActionResult> GetBookings([FromQuery] PaginationParams paginationParams)
         {
-           var bookings = await _bookingService.GetBookings();
+           var bookings = await _bookingService.GetBookings(paginationParams);
 
            return Ok(bookings); 
         }

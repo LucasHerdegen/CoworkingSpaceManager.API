@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using CoworkingSpaceManager.API.Models;
+using CoworkingSpaceManager.API.Pagination;
 using Microsoft.EntityFrameworkCore;
 
 namespace CoworkingSpaceManager.API.Repository
@@ -36,5 +37,20 @@ namespace CoworkingSpaceManager.API.Repository
 
         public async Task Save() =>
             await _context.SaveChangesAsync();
+
+        public async Task<PagedList<Booking>> GetPaged(PaginationParams paginationParams)
+        {
+            var query = _context.Set<Booking>().AsQueryable();
+
+            var totalCount = await query.CountAsync();
+
+            var items = await query
+                .OrderByDescending(x => x.ReservationDate)
+                .Skip((paginationParams.PageNumber - 1) * paginationParams.PageSize)
+                .Take(paginationParams.PageSize)
+                .ToListAsync();
+
+            return new PagedList<Booking>(items, totalCount, paginationParams.PageNumber, paginationParams.PageSize);
+        }
     }
 }
